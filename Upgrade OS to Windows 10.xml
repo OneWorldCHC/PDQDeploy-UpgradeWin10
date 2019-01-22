@@ -1,0 +1,485 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AdminArsenal.Export Code="PDQDeploy" Name="PDQ Deploy" Version="17.1.0.0" MinimumVersion="15.0">
+  <Package>
+    <CurrentLibraryPackageVersionId value="null" />
+    <PackageDefinition name="Definition">
+      <Conditions type="list">
+        <PackageStepCondition>
+          <Architecture>Both</Architecture>
+          <Version>All</Version>
+          <TypeName>OperatingSystem</TypeName>
+        </PackageStepCondition>
+        <PackageStepCondition>
+          <IsUserLoggedOn>AlwaysRun</IsUserLoggedOn>
+          <TypeName>LoggedOnUser</TypeName>
+        </PackageStepCondition>
+        <PackageStepCondition>
+          <ConditionMode>None</ConditionMode>
+          <InventoryCollectionId value="null" />
+          <InventoryCollectionName></InventoryCollectionName>
+          <TypeName>Collection</TypeName>
+        </PackageStepCondition>
+      </Conditions>
+      <CopyMode>Default</CopyMode>
+      <DelayedApprovalTimeSpan>7.00:00:00</DelayedApprovalTimeSpan>
+      <DownloadApprovalMode>Manual</DownloadApprovalMode>
+      <InventoryScanProfileId value="null" />
+      <IsDownloadApprovalModeInherited value="true" />
+      <ScanAfterDeployment value="null" />
+      <Steps type="list">
+        <CommandStep>
+          <Command>del /q /s C:\MININT
+RMDIR C:\MININT /S /Q
+
+Net Use z: /delete
+
+reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoAdminLogon /t REG_SZ /d 1 /f
+reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoLogonCount /t REG_DWORD /d 1 /f
+reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultUserName /t REG_SZ /d domain\username /f
+reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultPassword /t REG_SZ /d P@ssw0rd /f
+
+net localgroup Administrators /add domain\username</Command>
+          <Files></Files>
+          <SuccessCodes>0,2</SuccessCodes>
+          <RunAs value="null" />
+          <Conditions type="list">
+            <PackageStepCondition>
+              <Architecture>Both</Architecture>
+              <Version>All</Version>
+              <TypeName>OperatingSystem</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <IsUserLoggedOn>AlwaysRun</IsUserLoggedOn>
+              <TypeName>LoggedOnUser</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <ConditionMode>None</ConditionMode>
+              <InventoryCollectionId value="null" />
+              <InventoryCollectionName></InventoryCollectionName>
+              <TypeName>Collection</TypeName>
+            </PackageStepCondition>
+          </Conditions>
+          <ErrorMode>Continue</ErrorMode>
+          <Title>Stage Machine for Upgrade</Title>
+          <TypeName>Command</TypeName>
+          <IsEnabled value="true" />
+          <IsPostStep value="false" />
+          <IsPreStep value="false" />
+        </CommandStep>
+        <RebootStep>
+          <Message></Message>
+          <ShutdownOnly value="false" />
+          <Timeout value="0" />
+          <Conditions type="list">
+            <PackageStepCondition>
+              <Architecture>Both</Architecture>
+              <Version>All</Version>
+              <TypeName>OperatingSystem</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <IsUserLoggedOn>AlwaysRun</IsUserLoggedOn>
+              <TypeName>LoggedOnUser</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <ConditionMode>None</ConditionMode>
+              <InventoryCollectionId value="null" />
+              <InventoryCollectionName></InventoryCollectionName>
+              <TypeName>Collection</TypeName>
+            </PackageStepCondition>
+          </Conditions>
+          <ErrorMode>StopDeploymentFail</ErrorMode>
+          <Title>Reboot</Title>
+          <TypeName>Reboot</TypeName>
+          <IsEnabled value="true" />
+          <IsPostStep value="false" />
+          <IsPreStep value="false" />
+        </RebootStep>
+        <SleepStep>
+          <Seconds value="60" />
+          <Conditions type="list">
+            <PackageStepCondition>
+              <Architecture>Both</Architecture>
+              <Version>All</Version>
+              <TypeName>OperatingSystem</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <IsUserLoggedOn>AlwaysRun</IsUserLoggedOn>
+              <TypeName>LoggedOnUser</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <ConditionMode>None</ConditionMode>
+              <InventoryCollectionId value="null" />
+              <InventoryCollectionName></InventoryCollectionName>
+              <TypeName>Collection</TypeName>
+            </PackageStepCondition>
+          </Conditions>
+          <ErrorMode>StopDeploymentFail</ErrorMode>
+          <Title>Sleep 1 minute</Title>
+          <TypeName>Sleep</TypeName>
+          <IsEnabled value="true" />
+          <IsPostStep value="false" />
+          <IsPreStep value="false" />
+        </SleepStep>
+        <CommandStep>
+          <Command>start cscript.exe //Nologo //B "\\server\share$\Scripts\litetouch.vbs" "/SkipTaskSequence:YES /SkipBDDWelcome:YES /SkipSummary:YES /SkipFinalSummary:YES /HideShell:YES /TaskSequenceID:W10X64-UPG /SkipDeploymentType:Yes /SkipAdminPassword:YES"</Command>
+          <Files></Files>
+          <SuccessCodes>0</SuccessCodes>
+          <RunAs>LoggedOnUser</RunAs>
+          <Conditions type="list">
+            <PackageStepCondition>
+              <Architecture>Both</Architecture>
+              <Version>All</Version>
+              <TypeName>OperatingSystem</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <IsUserLoggedOn>AlwaysRun</IsUserLoggedOn>
+              <TypeName>LoggedOnUser</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <ConditionMode>None</ConditionMode>
+              <InventoryCollectionId value="null" />
+              <InventoryCollectionName></InventoryCollectionName>
+              <TypeName>Collection</TypeName>
+            </PackageStepCondition>
+          </Conditions>
+          <ErrorMode>StopDeploymentFail</ErrorMode>
+          <Title>Begin Upgrade</Title>
+          <TypeName>Command</TypeName>
+          <IsEnabled value="true" />
+          <IsPostStep value="false" />
+          <IsPreStep value="false" />
+        </CommandStep>
+        <SleepStep>
+          <Seconds value="60" />
+          <Conditions type="list">
+            <PackageStepCondition>
+              <Architecture>Both</Architecture>
+              <Version>All</Version>
+              <TypeName>OperatingSystem</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <IsUserLoggedOn>AlwaysRun</IsUserLoggedOn>
+              <TypeName>LoggedOnUser</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <ConditionMode>None</ConditionMode>
+              <InventoryCollectionId value="null" />
+              <InventoryCollectionName></InventoryCollectionName>
+              <TypeName>Collection</TypeName>
+            </PackageStepCondition>
+          </Conditions>
+          <ErrorMode>StopDeploymentFail</ErrorMode>
+          <Title>Sleep 1 minute</Title>
+          <TypeName>Sleep</TypeName>
+          <IsEnabled value="true" />
+          <IsPostStep value="false" />
+          <IsPreStep value="false" />
+        </SleepStep>
+        <PowerShellStep>
+          <CustomCommandLine></CustomCommandLine>
+          <Files></Files>
+          <Script>Function Get-MDTOData{
+    &lt;#
+    .Synopsis
+        Function for getting MDTOdata
+    .DESCRIPTION
+        Function for getting MDTOdata
+    .EXAMPLE
+        Get-MDTOData -MDTMonitorServer MDTSERVER01
+    .NOTES
+        Created:     2016-03-07
+        Version:     1.0
+ 
+        Author - Mikael Nystrom
+        Twitter: @mikael_nystrom
+        Blog   : http://deploymentbunny.com
+ 
+    .LINK
+        http://www.deploymentbunny.com
+    #&gt;
+    Param(
+    $MDTMonitorServer
+    ) 
+    $URL = "http://" + $MDTMonitorServer + ":9801/MDTMonitorData/Computers"
+    $Data = Invoke-RestMethod $URL
+    foreach($property in ($Data.content.properties) ){
+        $Hash =  [ordered]@{ 
+            Name = $($property.Name); 
+            PercentComplete = $($property.PercentComplete.’#text’); 
+            Warnings = $($property.Warnings.’#text’); 
+            Errors = $($property.Errors.’#text’); 
+            DeploymentStatus = $( 
+            Switch($property.DeploymentStatus.’#text’){ 
+                1 { "Active/Running"} 
+                2 { "Failed"} 
+                3 { "Successfully completed"} 
+                Default {"Unknown"} 
+                }
+            );
+            StepName = $($property.StepName);
+            TotalSteps = $($property.TotalStepS.'#text')
+            CurrentStep = $($property.CurrentStep.'#text')
+            DartIP = $($property.DartIP);
+            DartPort = $($property.DartPort);
+            DartTicket = $($property.DartTicket);
+            VMHost = $($property.VMHost.'#text');
+            VMName = $($property.VMName.'#text');
+            LastTime = $($property.LastTime.'#text') -replace "T"," ";
+            StartTime = $($property.StartTime.’#text’) -replace "T"," "; 
+            EndTime = $($property.EndTime.’#text’) -replace "T"," "; 
+            }
+        New-Object PSObject -Property $Hash
+    }
+}
+
+$status = get-mdtodata -MDTMonitorServer YOURMDTSERVER | Where-object Name -Match $env:COMPUTERNAME | select DeploymentStatus
+
+if ($status.DeploymentStatus -eq "Active/Running") {
+    #deployment started exit success
+    exit 0
+   
+}
+else  {
+    #deployment failed exit failed
+    exit 1
+   
+}</Script>
+          <SuccessCodes>0</SuccessCodes>
+          <RunAs value="null" />
+          <Conditions type="list">
+            <PackageStepCondition>
+              <Architecture>Both</Architecture>
+              <Version>All</Version>
+              <TypeName>OperatingSystem</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <IsUserLoggedOn>AlwaysRun</IsUserLoggedOn>
+              <TypeName>LoggedOnUser</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <ConditionMode>None</ConditionMode>
+              <InventoryCollectionId value="null" />
+              <InventoryCollectionName></InventoryCollectionName>
+              <TypeName>Collection</TypeName>
+            </PackageStepCondition>
+          </Conditions>
+          <ErrorMode>StopDeploymentFail</ErrorMode>
+          <Title>Confirm Upgrade Started</Title>
+          <TypeName>PowerShell</TypeName>
+          <IsEnabled value="true" />
+          <IsPostStep value="false" />
+          <IsPreStep value="false" />
+        </PowerShellStep>
+        <SleepStep>
+          <Seconds value="2700" />
+          <Conditions type="list">
+            <PackageStepCondition>
+              <Architecture>Both</Architecture>
+              <Version>All</Version>
+              <TypeName>OperatingSystem</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <IsUserLoggedOn>AlwaysRun</IsUserLoggedOn>
+              <TypeName>LoggedOnUser</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <ConditionMode>None</ConditionMode>
+              <InventoryCollectionId value="null" />
+              <InventoryCollectionName></InventoryCollectionName>
+              <TypeName>Collection</TypeName>
+            </PackageStepCondition>
+          </Conditions>
+          <ErrorMode>StopDeploymentFail</ErrorMode>
+          <Title>Sleep 2 Hours</Title>
+          <TypeName>Sleep</TypeName>
+          <IsEnabled value="true" />
+          <IsPostStep value="false" />
+          <IsPreStep value="false" />
+        </SleepStep>
+        <PowerShellStep>
+          <CustomCommandLine></CustomCommandLine>
+          <Files></Files>
+          <Script>Function Get-MDTOData{
+    &lt;#
+    .Synopsis
+        Function for getting MDTOdata
+    .DESCRIPTION
+        Function for getting MDTOdata
+    .EXAMPLE
+        Get-MDTOData -MDTMonitorServer MDTSERVER01
+    .NOTES
+        Created:     2016-03-07
+        Version:     1.0
+ 
+        Author - Mikael Nystrom
+        Twitter: @mikael_nystrom
+        Blog   : http://deploymentbunny.com
+ 
+    .LINK
+        http://www.deploymentbunny.com
+    #&gt;
+    Param(
+    $MDTMonitorServer
+    ) 
+    $URL = "http://" + $MDTMonitorServer + ":9801/MDTMonitorData/Computers"
+    $Data = Invoke-RestMethod $URL
+    foreach($property in ($Data.content.properties) ){
+        $Hash =  [ordered]@{ 
+            Name = $($property.Name); 
+            PercentComplete = $($property.PercentComplete.’#text’); 
+            Warnings = $($property.Warnings.’#text’); 
+            Errors = $($property.Errors.’#text’); 
+            DeploymentStatus = $( 
+            Switch($property.DeploymentStatus.’#text’){ 
+                1 { "Active/Running"} 
+                2 { "Failed"} 
+                3 { "Successfully completed"} 
+                Default {"Unknown"} 
+                }
+            );
+            StepName = $($property.StepName);
+            TotalSteps = $($property.TotalStepS.'#text')
+            CurrentStep = $($property.CurrentStep.'#text')
+            DartIP = $($property.DartIP);
+            DartPort = $($property.DartPort);
+            DartTicket = $($property.DartTicket);
+            VMHost = $($property.VMHost.'#text');
+            VMName = $($property.VMName.'#text');
+            LastTime = $($property.LastTime.'#text') -replace "T"," ";
+            StartTime = $($property.StartTime.’#text’) -replace "T"," "; 
+            EndTime = $($property.EndTime.’#text’) -replace "T"," "; 
+            }
+        New-Object PSObject -Property $Hash
+    }
+}
+
+$status = get-mdtodata -MDTMonitorServer YOURMDTSERVER | Where-object Name -Match $env:COMPUTERNAME | select DeploymentStatus
+
+if ($status.DeploymentStatus -eq "Successfully completed") {
+    #deployment started exit success
+    exit 0
+   
+}
+else  {
+    #deployment failed exit failed
+    exit 1
+   
+}</Script>
+          <SuccessCodes>0</SuccessCodes>
+          <RunAs value="null" />
+          <Conditions type="list">
+            <PackageStepCondition>
+              <Architecture>Both</Architecture>
+              <Version>All</Version>
+              <TypeName>OperatingSystem</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <IsUserLoggedOn>AlwaysRun</IsUserLoggedOn>
+              <TypeName>LoggedOnUser</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <ConditionMode>None</ConditionMode>
+              <InventoryCollectionId value="null" />
+              <InventoryCollectionName></InventoryCollectionName>
+              <TypeName>Collection</TypeName>
+            </PackageStepCondition>
+          </Conditions>
+          <ErrorMode>Continue</ErrorMode>
+          <Title>Confirm Upgrade Successful</Title>
+          <TypeName>PowerShell</TypeName>
+          <IsEnabled value="true" />
+          <IsPostStep value="false" />
+          <IsPreStep value="false" />
+        </PowerShellStep>
+        <CommandStep>
+          <Command>reg delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoAdminLogon /f
+reg delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v AutoLogonCount /f
+reg delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultUserName /f
+reg delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v DefaultPassword /f
+
+net localgroup Administrators domain\username /delete</Command>
+          <Files></Files>
+          <SuccessCodes>0</SuccessCodes>
+          <RunAs value="null" />
+          <Conditions type="list">
+            <PackageStepCondition>
+              <Architecture>Both</Architecture>
+              <Version>All</Version>
+              <TypeName>OperatingSystem</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <IsUserLoggedOn>AlwaysRun</IsUserLoggedOn>
+              <TypeName>LoggedOnUser</TypeName>
+            </PackageStepCondition>
+            <PackageStepCondition>
+              <ConditionMode>None</ConditionMode>
+              <InventoryCollectionId value="null" />
+              <InventoryCollectionName></InventoryCollectionName>
+              <TypeName>Collection</TypeName>
+            </PackageStepCondition>
+          </Conditions>
+          <ErrorMode>StopDeploymentFail</ErrorMode>
+          <Title>Cleanup Steps</Title>
+          <TypeName>Command</TypeName>
+          <IsEnabled value="true" />
+          <IsPostStep value="false" />
+          <IsPreStep value="false" />
+        </CommandStep>
+      </Steps>
+      <Timeout value="60" />
+      <UseCustomTimeout value="false" />
+      <RunAs value="null" />
+    </PackageDefinition>
+    <Description>This PDQ package will allow an administrator to perform an in-place upgrade to whichever version of Windows 10 your organization is deploying. The nice thing about this is when you have everything working, you can scale your deployment upgrades to your liking. This can save hours for your technicians who are performing this process manually. 
+
+This package depends on the following:
+1. An existing MDT environment with a working upgrade Task Sequence
+2. PDQ Deploy
+3. MDT Monitoring must be enabled
+
+How the script works:
+
+The script will stage some registry keys to enable auto login of an account. The account must have permissions to your MDT share and also be a local administrator. After staging the settings, PDQ will reboot the machine and allow auto-login to take place. It will then call Litetouch.vbs with the apropriate parameters for a silent deployment. I've found that MDT will not allow execution of Litetouch.vbs without interaction and I've been unable to find a way around that. After the upgrade is started, PDQ will use powershell via ODATA to check that the upgrade is running. It will then sleep for a few hours and check to see if it finished using the same powershell script via ODATA. 
+
+Getting started:
+Review all the steps and tweak parameters accordingly. Endpoint hardware and network bandwidth will affect the varios sleep timers I have built into the script. You'll need to adjust them accordingly. 
+
+Step 1 - First we clean up any traces of MININT. Then adjust the domain\username &amp; password fields to your environment. Finally edit the last line to reflect the domain\username used for auto-login. Note: this account must have permissions to your MDT Share.
+
+Step 2 - Reboot
+
+Step 3 - Allow time for the machine to login 
+
+Step 4 - Edit the path your your deployment share. Edit the Task Sequence ID to reflect your Upgrade TS ID
+
+Step 5 - Allow Litetouch.vbs to kick off and begin reporting data to the MDT Monitoring ODATA stream
+
+Step 6 - Using Mikael Nystrom's Powershell script we check to see if the TS is running. Edit the $status line to reflect your MDT server. 
+
+Step 7 - Sleep PDQ for a couple of hours. Tweak this to match your average upgrade time. In our environment it takes 45-90 minutes so I have some buffer in there in case. This Sleep time value must be less than your deployment timeout value in the PDQ Console &gt; Options &gt; Preferences &gt; Deployments &gt; Timeout.
+
+Step 8 - Using Mikael Nystrom's script to check if it finished. Edit the $status line to reflect your MDT server. 
+
+Step 9 - We clean up the registry keys and group settings set in step 1. Edit to reflect the same as Step 1.
+
+Troubleshooting
+If your timings are wrong for the sleep steps, be sure to run the re-deploy package starting at step 9 on the failed machines to ensure the cleanup takes place. 
+
+Acknowledgements 
+https://deploymentbunny.com/2016/03/07/powershell-is-king-get-mdt-monitor-data-using-the-odata-feed-using-a-powershell-function/
+https://social.technet.microsoft.com/Forums/ie/en-US/d292a5f9-b979-477c-943e-df1eef1069ad/upgrading-to-windows-10-using-mdt-zero-touch?forum=mdt</Description>
+    <NewLibraryPackageVersionId value="null" />
+    <OriginalId value="null" />
+    <Version></Version>
+    <IsAutoDownload value="false" />
+    <FolderId value="2" />
+    <LibraryPackageVersionId value="null" />
+    <Name>Upgrade OS to Windows 10</Name>
+    <Path>Packages\owCustom App Installs\Upgrade OS to Windows 10</Path>
+    <PackageDisplaySettings name="DisplaySettings">
+      <DisplayType>Normal</DisplayType>
+      <IconKey>Icon-Package</IconKey>
+      <SortOrder value="13" />
+    </PackageDisplaySettings>
+  </Package>
+</AdminArsenal.Export>
