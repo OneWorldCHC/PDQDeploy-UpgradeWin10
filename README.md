@@ -12,7 +12,7 @@ How the script works:
 The script will stage some registry keys to enable auto login of an account. The account must have permissions to your MDT share and also be a local administrator. After staging the settings, PDQ will reboot the machine and allow auto-login to take place. It will then call Litetouch.vbs with the apropriate parameters for a silent deployment. I've found that MDT will not allow execution of Litetouch.vbs without interaction and I've been unable to find a way around that. After the upgrade is started, PDQ will use powershell via ODATA to check that the upgrade is running. It will then sleep for a few hours and check to see if it finished using the same powershell script via ODATA. 
 
 Getting started:
-Review all the steps and tweak parameters accordingly. Endpoint hardware and network bandwidth will affect the varios sleep timers I have built into the script. You'll need to adjust them accordingly. 
+Review all the steps and tweak parameters accordingly. Endpoint hardware and network bandwidth will affect the various sleep timers I have built into the script. You'll need to adjust them accordingly. 
 
 Step 1 - First we clean up any traces of MININT. Then adjust the domain\username & password fields to your environment. Finally edit the last line to reflect the domain\username used for auto-login. Note: this account must have permissions to your MDT Share.
 
