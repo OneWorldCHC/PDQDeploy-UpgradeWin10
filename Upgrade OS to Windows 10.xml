@@ -399,7 +399,7 @@ reg delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" /v Defau
 
 net localgroup Administrators domain\username /delete</Command>
           <Files></Files>
-          <SuccessCodes>0</SuccessCodes>
+          <SuccessCodes>0,2</SuccessCodes>
           <RunAs value="null" />
           <Conditions type="list">
             <PackageStepCondition>
@@ -429,6 +429,11 @@ net localgroup Administrators domain\username /delete</Command>
       <Timeout value="60" />
       <UseCustomTimeout value="false" />
       <RunAs value="null" />
+      <RetryQueueSettings name="RetryQueueSettings">
+        <IsInherited value="false" />
+        <IsRetryEnabled value="false" />
+        <RetryMaxTries value="72" />
+      </RetryQueueSettings>
     </PackageDefinition>
     <Description>This PDQ package will allow an administrator to perform an in-place upgrade to whichever version of Windows 10 your organization is deploying. The nice thing about this is when you have everything working, you can scale your deployment upgrades to your liking. This can save hours for your technicians who are performing this process manually. 
 
